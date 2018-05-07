@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const utils = require('./util');
 const webpack = require('webpack')
@@ -9,6 +10,19 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 const HOST = process.env.HOST || config.dev.host
 const PORT = (process.env.PORT && Number(process.env.PORT)) || config.dev.port;
+const MOCK = process.env.NEEW_MOCK || false;
+
+const express = require('express')
+const app = express()
+const apiRoutes = express.Router()
+app.use('/japi', apiRoutes)
+
+const routerFun = (req, res) => {
+    const path = req.path;
+    const jsonData = fs.readFileSync(`${utils.resolve("mock")}${path}.json`,'utf-8');
+    const {status, data} = JSON.parse(jsonData);
+    res.status(status || 200).json(data);
+}
 
 const dev = {
     module: {
@@ -29,7 +43,7 @@ const dev = {
         open: config.dev.autoOpenBrowser,
         contentBase: [utils.resolve("dist"), utils.resolve("mock")],
         historyApiFallback: true,
-        proxy: config.dev.proxyTable,
+        proxy: MOCK ? {} : config.dev.proxyTable,
         watchOptions: {
             poll: config.dev.poll,
         },
@@ -50,6 +64,15 @@ const dev = {
         })
     ]
 }
+
+MOCK && Object.assign(dev.devServer, {
+    before(app) {
+        app.route('/japi/*')
+            .get(routerFun)
+            .post(routerFun)
+            .put(routerFun)
+    }
+})
 
 module.exports = merge(baseWebpackConfig, dev);
 

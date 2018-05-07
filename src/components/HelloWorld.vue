@@ -24,7 +24,7 @@ export default {
   },
   mounted(){
     axios({
-      method: 'post',
+      method: 'get',
       url: '/japi/session/100055',
       responseType: 'json',
     }).then(function(res) {
