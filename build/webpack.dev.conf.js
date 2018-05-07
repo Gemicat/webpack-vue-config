@@ -48,7 +48,7 @@ const dev = {
         open: config.dev.autoOpenBrowser,
         contentBase: [utils.resolve("dist"), utils.resolve("mock")],
         historyApiFallback: true,
-        proxy: MOCK ? {} : config.dev.proxyTable,
+        proxy: (MOCK || REST) ? {} : config.dev.proxyTable,
         watchOptions: {
             poll: config.dev.poll,
         },
@@ -86,4 +86,3 @@ REST && Object.assign(dev.devServer, {
 })
 
 module.exports = merge(baseWebpackConfig, dev);
-
