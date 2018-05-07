@@ -11,6 +11,11 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const HOST = process.env.HOST || config.dev.host
 const PORT = (process.env.PORT && Number(process.env.PORT)) || config.dev.port;
 const MOCK = process.env.NEEW_MOCK || false;
+const REST = process.env.NEEW_REST || false;
+
+// mock
+const apiMocker = require('webpack-api-mocker');
+const mocker = require('../rest/mock');
 
 const express = require('express')
 const app = express()
@@ -71,6 +76,12 @@ MOCK && Object.assign(dev.devServer, {
             .get(routerFun)
             .post(routerFun)
             .put(routerFun)
+    }
+})
+
+REST && Object.assign(dev.devServer, {
+    before(app) {
+        apiMocker(app, path.resolve('./rest/mock.js'))
     }
 })
 
