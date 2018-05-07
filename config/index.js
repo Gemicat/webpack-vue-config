@@ -11,11 +11,12 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/japi': {
-                target: 'http://url',
+                target: 'http://clinic2.dxy.net',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/japi': '/japi'
-                }
+                },
+                secure: false
             }
         },
 
@@ -46,7 +47,7 @@ module.exports = {
     build: {
         // Paths
         assetsRoot: path.resolve(__dirname, '../dist'),
-        assetsPublicPath: '/',
+        assetsPublicPath: './',
         assetsSubDirectory: 'static',
 
         /**

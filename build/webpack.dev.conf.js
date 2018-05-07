@@ -14,7 +14,7 @@ const dev = {
     module: {
         rules: utils.styleLoaders({
             sourceMap: config.dev.cssSourceMap,
-            usePostCSS: true
+            usePostCSS: false
         })
     },
     devtool: config.dev.devtool,
@@ -27,13 +27,15 @@ const dev = {
         host: HOST,
         port: PORT,
         open: config.dev.autoOpenBrowser,
-        contentBase: utils.resolve("dist"),
+        contentBase: [utils.resolve("dist"), utils.resolve("mock")],
         historyApiFallback: true,
         proxy: config.dev.proxyTable,
         watchOptions: {
             poll: config.dev.poll,
         },
         overlay: config.dev.errorOverlay ? { warnings: false, errors: true } : false,
+        disableHostCheck: true,
+        host: '0.0.0.0'
     },
     plugins: [
         new HtmlWebpackPlugin({

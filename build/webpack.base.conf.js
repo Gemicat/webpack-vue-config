@@ -1,8 +1,8 @@
 const path = require('path');
 const utils = require('./util');
 const vueLoaderConfig = require('./vue-loader.conf')
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const config = require('../config')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     output: {
@@ -13,7 +13,7 @@ module.exports = {
             : config.dev.assetsPublicPath
     },
     resolve: {
-        extensions: ['.js', '.vue', '.json'],
+        extensions: ['.js', '.vue', '.json', '.css'],
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
             '@': utils.resolve('src'),
@@ -51,10 +51,5 @@ module.exports = {
                 name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
             }
         }]
-    },
-    plugins: [
-        new ExtractTextPlugin({
-            filename: utils.assetsPath('css/[name].[contenthash].css'),
-        })
-    ]
+    }
 }

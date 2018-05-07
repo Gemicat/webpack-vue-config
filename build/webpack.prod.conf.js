@@ -6,6 +6,7 @@ const config = require('../config')
 const baseWebpackConfig = require('./webpack.base.conf');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const build = {
     output: {
@@ -16,8 +17,7 @@ const build = {
     module: {
         rules: utils.styleLoaders({
             sourceMap: config.build.productionSourceMap,
-            extract: true,
-            usePostCSS: true
+            usePostCSS: false
         })
     },
     devtool: config.build.productionSourceMap ? config.build.devtool : false,
@@ -26,18 +26,19 @@ const build = {
             name: 'manifest'
         },
         splitChunks: {
-            chunks: "all",
-            minSize: 30000,
-            minChunks: 1,
-            maxAsyncRequests: 5,
-            maxInitialRequests: 3,
-            name: true,
             cacheGroups: {
-                default: false,
                 commons: {
-                    test: /[\\/]node_modules[\\/]/,
+                    chunks: 'initial',
+                    minChunks: 2,
+                    maxInitialRequests: 5,
+                    minSize: 0
+                 },
+                 vendor: {
+                    test: /node_modules/,
                     name: 'vendors',
-                    chunks: "initial"
+                    chunks: "initial",
+                    priority: 10,
+                    enforce: true,
                 }
             }
         }
@@ -62,7 +63,10 @@ const build = {
                 verbose: true,
                 dry: false
             }
-        )
+        ),
+        new MiniCssExtractPlugin({
+            filename: utils.assetsPath('css/[name].[contenthash].css')
+        }),
     ]
 }
 

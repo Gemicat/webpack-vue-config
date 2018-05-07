@@ -23,10 +23,12 @@ export default {
     }
   },
   mounted(){
-    axios.get("/japi/session/100055").then((res) => {
-      if (res.status) {
-        console.log(res.data);
-      }
+    axios({
+      method: 'post',
+      url: '/japi/session/100055',
+      responseType: 'json',
+    }).then(function(res) {
+      console.log(res);
     })
   }
 }
