@@ -64,6 +64,7 @@ const build = {
                 dry: false
             }
         ),
+        // css 拆分
         new MiniCssExtractPlugin({
             filename: utils.assetsPath('css/[name].[contenthash].css')
         }),
