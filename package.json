@@ -26,7 +26,7 @@
     "compression-webpack-plugin": "1.1.11",
     "cross-env": "5.1.4",
     "css-loader": "0.28.11",
-    "express": "4.16.3",
+    "express": "4.18.2",
     "file-loader": "1.1.11",
     "friendly-errors-webpack-plugin": "1.6.1",
     "html-webpack-plugin": "3.1.0",
